@@ -30,8 +30,8 @@ class LocalCache(private val albumsDao: AlbumsDao, private val ioExecutor: Execu
      */
 
     fun albumsByQuery(query: String): LiveData<List<Album>>{
-        val query = "%${query.replace(' ', '%')}"
-        return albumsDao.resultsByQuery(query)
+        val searchQuery = "%${query.replace(' ', '%')}"
+        return albumsDao.resultsByQuery(searchQuery)
     }
 
 }

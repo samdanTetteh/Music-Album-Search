@@ -16,7 +16,7 @@ interface AlbumsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
      fun insertAll(albums: List<Album>)
 
-    @Query("")
+    @Query("SELECT * FROM albums WHERE name LIKE :queryString ORDER BY id ASC")
     fun resultsByQuery(queryString: String): LiveData<List<Album>>
 
     /**

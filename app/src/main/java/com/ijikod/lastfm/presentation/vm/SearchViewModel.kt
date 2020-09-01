@@ -14,6 +14,8 @@ import com.ijikod.lastfm.data.model.AlbumSearchResults
  * **/
 class SearchViewModel(private val repository: Repository) :ViewModel() {
 
+    private val queryLiveData = MutableLiveData<String>()
+
     private val albumLiveData = MutableLiveData<AlbumSearchResults>()
 
     var albums: LiveData<List<Album>> = Transformations.switchMap(albumLiveData){
@@ -30,5 +32,10 @@ class SearchViewModel(private val repository: Repository) :ViewModel() {
     fun searchAlbums(query: String){
         albumLiveData.value = repository.listAlbums(query)
     }
+
+    /**
+     * Get the last query value.
+     */
+    fun lastQueryValue(): String? = queryLiveData.value
 
 }

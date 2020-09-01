@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">last.fm</string>
+    <string name="search_hint">Album Name</string>
+    <string name="no_results">No results 😓</string>
 </resources>
