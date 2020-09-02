@@ -17,4 +17,6 @@ interface LastFmApiService{
     suspend fun searchAlbum(@Query("album") album: String, @Query("api_key") apiKey: String) : Response<AlbumResults>
 
 
+
+
 }

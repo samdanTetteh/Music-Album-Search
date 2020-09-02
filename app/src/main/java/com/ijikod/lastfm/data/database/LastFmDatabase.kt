@@ -6,8 +6,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.ijikod.lastfm.data.model.Album
+import com.ijikod.lastfm.data.model.AlbumDetails
 
-@Database(entities = [Album::class], version = 1, exportSchema = false)
+@Database(entities = [Album::class, AlbumDetails::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class LastFmDatabase: RoomDatabase() {
 
