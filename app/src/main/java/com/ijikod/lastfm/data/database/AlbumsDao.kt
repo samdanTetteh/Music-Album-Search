@@ -22,6 +22,6 @@ interface AlbumsDao {
     /**
      * Delete all data in local repository
      * **/
-    @Query("Delete FROM albums")
-    fun clearRepos()
+    @Query("Delete FROM albums where name LIKE :queryString")
+    fun clearAlbums(queryString: String)
 }

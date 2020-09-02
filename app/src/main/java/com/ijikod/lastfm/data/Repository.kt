@@ -8,9 +8,7 @@ import com.ijikod.lastfm.data.api.LastFmApiService
 import com.ijikod.lastfm.data.database.LocalCache
 import com.ijikod.lastfm.data.model.Album
 import com.ijikod.lastfm.data.model.AlbumSearchResults
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.lang.Exception
 
 /**
@@ -19,37 +17,35 @@ import java.lang.Exception
  * **/
 class Repository(private val service :LastFmApiService, private val cache: LocalCache) {
 
-    lateinit var albumListData : LiveData<List<Album>>
+    lateinit var albumListData: LiveData<List<Album>>
 
     private val _networkErrors = MutableLiveData<String>()
 
-    val networkErrors : LiveData<String>
+    val networkErrors: LiveData<String>
         get() = _networkErrors
 
-
     /**
-     * [Repository] class to load data from local repository to serve as single source of truth
+     * Await search results from either remote or local database and server to view model
      * **/
-    fun listAlbums(query: String): AlbumSearchResults {
-
-        albumListData = cache.albumsByQuery(query)
-        if (albumListData.value.isNullOrEmpty()){
-            CoroutineScope(Dispatchers.IO).launch {
-                getVideosFromNetwork(query, {
-                    cache.insert(it)
-                    albumListData = cache.albumsByQuery(query)
-                    _networkErrors.postValue("")
-                }, {error ->
-                    _networkErrors.postValue(error)
-                })
-            }
-        }
-
+    fun getAlbums(value: String): AlbumSearchResults {
+        listAlbums(value)
         return AlbumSearchResults(albumListData, networkErrors)
-
     }
 
-
+    // Load search results from remote and save to local database
+    private fun listAlbums(query: String) = runBlocking {
+        async {
+            getVideosFromNetwork(query, {
+                cache.removeAlbumsByQuery(query)
+                cache.insert(it)
+                albumListData = cache.albumsByQuery(query)
+                _networkErrors.postValue("")
+            }, { error ->
+                albumListData = cache.albumsByQuery(query)
+                _networkErrors.postValue(error)
+            })
+        }.await()
+    }
 
 
     /**

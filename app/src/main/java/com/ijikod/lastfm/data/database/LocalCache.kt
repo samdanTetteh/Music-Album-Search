@@ -28,10 +28,20 @@ class LocalCache(private val albumsDao: AlbumsDao, private val ioExecutor: Execu
      * Request a LiveData<List<[Album]>> from the Dao, based on a album name.
      * @param query album name
      */
-
     fun albumsByQuery(query: String): LiveData<List<Album>>{
         val searchQuery = "%${query.replace(' ', '%')}"
         return albumsDao.resultsByQuery(searchQuery)
     }
 
+
+    /**
+     * Remove all [Album] items  from local database with similar search query as name
+     * @param query album name
+     */
+    fun removeAlbumsByQuery(query: String){
+        val searchQuery = "%${query.replace(' ', '%')}"
+        ioExecutor.execute{
+            albumsDao.clearAlbums(searchQuery)
+        }
+    }
 }

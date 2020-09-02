@@ -16,13 +16,15 @@ class SearchViewModel(private val repository: Repository) :ViewModel() {
 
     private val queryLiveData = MutableLiveData<String>()
 
-    private val albumLiveData = MutableLiveData<AlbumSearchResults>()
 
-    var albums: LiveData<List<Album>> = Transformations.switchMap(albumLiveData){
-        repository.albumListData
+    var albumResults: LiveData<AlbumSearchResults> = Transformations.map(queryLiveData){
+        repository.getAlbums(it)
+    }
+    val albums : LiveData<List<Album>> = Transformations.switchMap(albumResults){
+        it.data
     }
 
-    var networkErrors: LiveData<String> = Transformations.switchMap(albumLiveData){
+    var networkErrors: LiveData<String> = Transformations.switchMap(albumResults){
         repository.networkErrors
     }
 
@@ -30,7 +32,7 @@ class SearchViewModel(private val repository: Repository) :ViewModel() {
      * Query album search data from [Repository]
      * **/
     fun searchAlbums(query: String){
-        albumLiveData.value = repository.listAlbums(query)
+        queryLiveData.postValue(query)
     }
 
     /**

@@ -2,6 +2,9 @@ package com.ijikod.lastfm.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 data class AlbumResults (
     val results: Results
@@ -33,6 +36,7 @@ data class Album (
 )
 
 data class Image (
-    val text: String,
-    val size: String
+    @field:SerializedName("#text")
+    var text: String,
+    var size: String
 )
