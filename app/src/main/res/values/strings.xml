@@ -4,5 +4,6 @@
     <string name="no_results">No results 😓</string>
     <string name="album_img">album_artwork</string>
     <string name="album_tracks_title">Album Tracks</string>
+    <string name="album_details_title">Album Details</string>
 
 </resources>

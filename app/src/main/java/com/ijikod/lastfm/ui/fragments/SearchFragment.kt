@@ -13,12 +13,14 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.ijikod.lastfm.Utilities.PrefsHelper
 import com.ijikod.lastfm.Utilities.hideKeyboard
 import com.ijikod.lastfm.application.LastFMApplication
 import com.ijikod.lastfm.data.model.Album
 import com.ijikod.lastfm.databinding.FragmentSearchBinding
+import com.ijikod.lastfm.presentation.vm.AlbumDetailsViewModel
 import com.ijikod.lastfm.presentation.vm.SearchViewModel
 import com.ijikod.lastfm.ui.adapter.SearchAdapter
 
@@ -33,6 +35,7 @@ class SearchFragment: Fragment() {
     private lateinit var searchList : RecyclerView
     private lateinit var emptyText : TextView
     private lateinit var searchTextField : EditText
+    private lateinit var albumDetailsVM: AlbumDetailsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,12 +58,6 @@ class SearchFragment: Fragment() {
         initAdapter()
         initSearch(query)
         return binding.root
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        // Save last search query
-        viewModel.lastQueryValue()?.let { PrefsHelper.write(LAST_SEARCH_QUERY, it) }
     }
 
     private fun initScreenItems(binding: FragmentSearchBinding){
@@ -102,9 +99,9 @@ class SearchFragment: Fragment() {
         searchTextField.setText(query)
 
         // Load last search data based on last search done
-        if (query.isNotEmpty()){
-            updateAlbumSearchListFromInput()
-        }
+//        if (query.isNotEmpty()){
+//            updateAlbumSearchListFromInput()
+//        }
 
         // Trigger search from search button in keyboard.
         searchTextField.setOnEditorActionListener { _, actionId, _ ->
@@ -137,6 +134,8 @@ class SearchFragment: Fragment() {
             if (it.isNotEmpty()) {
                 searchList.scrollToPosition(0)
                 viewModel.searchAlbums(it.toString())
+                // Save last search query
+                viewModel.lastQueryValue()?.let { PrefsHelper.write(LAST_SEARCH_QUERY, it) }
                 adapter.setDataSet(emptyList())
             }
         }
@@ -155,8 +154,13 @@ class SearchFragment: Fragment() {
     }
 
 
-
+    // Navigate to Album details
     private fun navigate(album: Album){
+        albumDetailsVM = ViewModelProvider(requireActivity(), LastFMApplication.provideViewModelFactory(requireContext())).get(AlbumDetailsViewModel::class.java)
+        albumDetailsVM.setSelectedAlbum(album)
+
+        val action = SearchFragmentDirections.actionSearchFragmentToDetailsFragment()
+        findNavController().navigate(action)
 
     }
 

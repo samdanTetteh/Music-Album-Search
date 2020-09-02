@@ -12,7 +12,7 @@ import com.ijikod.lastfm.data.model.AlbumSearchResults
 class AlbumDetailsViewModel(private val repository: Repository): ViewModel() {
 
     // Shared album item between details and search fragment
-    private val selectedAlbum : MutableLiveData<Album> = MutableLiveData<Album>()
+    val selectedAlbum : MutableLiveData<Album> = MutableLiveData<Album>()
 
     var albumDetailsResults: LiveData<AlbumDetails> = Transformations.map(selectedAlbum){
         repository.getAlbumsDetails(it.name, it.artist, it.mbid)
@@ -30,7 +30,7 @@ class AlbumDetailsViewModel(private val repository: Repository): ViewModel() {
     /**
      * Set value to Shared album [Album] used in Details Fragment
      * **/
-    fun setSelectedVideo(album : Album){
+    fun setSelectedAlbum(album : Album){
         selectedAlbum.value = album
     }
 }

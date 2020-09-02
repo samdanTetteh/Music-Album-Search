@@ -8,5 +8,13 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.ijikod.lastfm.ui.fragments.SearchFragment"
-        android:label="@string/app_name" />
+        android:label="@string/app_name" >
+        <action
+            android:id="@+id/action_searchFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.ijikod.lastfm.ui.fragments.DetailsFragment"
+        android:label="@string/album_details_title" />
 </navigation>
