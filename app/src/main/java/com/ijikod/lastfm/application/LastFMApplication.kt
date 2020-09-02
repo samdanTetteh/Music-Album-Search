@@ -2,7 +2,9 @@ package com.ijikod.lastfm.application
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModelProvider
+import com.ijikod.lastfm.Utilities.PrefsHelper
 import com.ijikod.lastfm.data.Repository
 import com.ijikod.lastfm.data.api.RetrofitInstance
 import com.ijikod.lastfm.data.database.LastFmDatabase
@@ -18,6 +20,7 @@ class LastFMApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         appContext = applicationContext
+        PrefsHelper.init(appContext)
     }
 
 

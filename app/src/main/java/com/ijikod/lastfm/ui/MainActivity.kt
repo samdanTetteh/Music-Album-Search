@@ -27,4 +27,5 @@ class MainActivity : AppCompatActivity() {
         // setup toolbar with navigation component
         toolbar.setupWithNavController(navHostFragment.navController, appBarConfiguration)
     }
+
 }

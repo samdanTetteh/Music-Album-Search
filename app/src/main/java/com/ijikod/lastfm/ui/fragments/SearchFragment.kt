@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.ijikod.lastfm.Utilities.PrefsHelper
 import com.ijikod.lastfm.Utilities.hideKeyboard
 import com.ijikod.lastfm.application.LastFMApplication
 import com.ijikod.lastfm.data.model.Album
@@ -47,8 +48,8 @@ class SearchFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentSearchBinding.inflate(inflater, container, false)
-
-        val query = savedInstanceState?.getString(LAST_SEARCH_QUERY) ?: DEFAULT_QUERY
+        // Retrieve last search query
+        val query = PrefsHelper.read(LAST_SEARCH_QUERY, "") ?: ""
 
         initScreenItems(binding)
         initAdapter()
@@ -56,6 +57,11 @@ class SearchFragment: Fragment() {
         return binding.root
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        // Save last search query
+        viewModel.lastQueryValue()?.let { PrefsHelper.write(LAST_SEARCH_QUERY, it) }
+    }
 
     private fun initScreenItems(binding: FragmentSearchBinding){
         // Initialise screen views
@@ -95,10 +101,15 @@ class SearchFragment: Fragment() {
     private fun initSearch(query: String) {
         searchTextField.setText(query)
 
+        // Load last search data based on last search done
+        if (query.isNotEmpty()){
+            updateAlbumSearchListFromInput()
+        }
+
         // Trigger search from search button in keyboard.
         searchTextField.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_GO) {
-                updateRepoListFromInput()
+                updateAlbumSearchListFromInput()
                 true
             } else {
                 false
@@ -108,7 +119,7 @@ class SearchFragment: Fragment() {
         // Trigger search from enter button on keyboard.
         searchTextField.setOnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                updateRepoListFromInput()
+                updateAlbumSearchListFromInput()
                 true
             } else {
                 false
@@ -117,7 +128,7 @@ class SearchFragment: Fragment() {
     }
 
 
-    private fun updateRepoListFromInput() {
+    private fun updateAlbumSearchListFromInput() {
         // Hide keyboard after search is triggered
         hideKeyboard()
 
@@ -153,6 +164,5 @@ class SearchFragment: Fragment() {
 
     companion object {
         private const val LAST_SEARCH_QUERY: String = "last_search_query"
-        private const val DEFAULT_QUERY = "Android"
     }
 }
