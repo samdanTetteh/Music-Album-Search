@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.room.Query
 import com.ijikod.lastfm.data.model.Album
+import com.ijikod.lastfm.data.model.AlbumDetails
 import java.util.concurrent.Executor
 
 /**
@@ -16,10 +17,18 @@ class LocalCache(private val albumsDao: AlbumsDao, private val ioExecutor: Execu
     /**
      * Insert a list of albums in the database, on a background thread.
      */
-    fun insert(albums: List<Album>) {
+    fun insertAlbum(albums: List<Album>) {
         ioExecutor.execute {
-            Log.d("GithubLocalCache", "inserting ${albums.size} repos")
             albumsDao.insertAll(albums)
+        }
+    }
+
+    /**
+     * Insert a [AlbumDetails] in the database, on a background thread.
+     */
+    fun insertAlbumDetails(album: AlbumDetails) {
+        ioExecutor.execute {
+            albumsDao.insertAlbumDetails(album)
         }
     }
 
@@ -31,6 +40,14 @@ class LocalCache(private val albumsDao: AlbumsDao, private val ioExecutor: Execu
     fun albumsByQuery(query: String): LiveData<List<Album>>{
         val searchQuery = "%${query.replace(' ', '%')}"
         return albumsDao.resultsByQuery(searchQuery)
+    }
+
+    /**
+     * Request [AlbumDetails] from the Dao, based on a album mid.
+     * @param query album name
+     */
+    fun albumsByMid(mid: String): LiveData<AlbumDetails>{
+        return albumsDao.albumByMid(mid)
     }
 
 
