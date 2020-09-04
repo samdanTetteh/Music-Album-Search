@@ -96,8 +96,8 @@ class DetailsFragment: Fragment() {
             }
         }
 
-        albumDetails.wiki?.let {
-            albumWiki.text = HtmlCompat.fromHtml(albumDetails.wiki?.summary.toString(), HtmlCompat.FROM_HTML_MODE_LEGACY)
+        albumDetails.wiki?.summary?.let {
+            albumWiki.text = HtmlCompat.fromHtml(it, HtmlCompat.FROM_HTML_MODE_LEGACY)
         }
     }
 

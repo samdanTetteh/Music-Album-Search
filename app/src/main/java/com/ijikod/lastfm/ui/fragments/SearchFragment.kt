@@ -51,12 +51,10 @@ class SearchFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentSearchBinding.inflate(inflater, container, false)
-        // Retrieve last search query
-        val query = PrefsHelper.read(LAST_SEARCH_QUERY, "") ?: ""
 
         initScreenItems(binding)
         initAdapter()
-        initSearch(query)
+        initSearch()
         return binding.root
     }
 
@@ -95,14 +93,7 @@ class SearchFragment: Fragment() {
     }
 
 
-    private fun initSearch(query: String) {
-        searchTextField.setText(query)
-
-        // Load last search data based on last search done
-//        if (query.isNotEmpty()){
-//            updateAlbumSearchListFromInput()
-//        }
-
+    private fun initSearch() {
         // Trigger search from search button in keyboard.
         searchTextField.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_GO) {
@@ -134,8 +125,6 @@ class SearchFragment: Fragment() {
             if (it.isNotEmpty()) {
                 searchList.scrollToPosition(0)
                 viewModel.searchAlbums(it.toString())
-                // Save last search query
-                viewModel.lastQueryValue()?.let { PrefsHelper.write(LAST_SEARCH_QUERY, it) }
                 adapter.setDataSet(emptyList())
             }
         }
@@ -161,11 +150,5 @@ class SearchFragment: Fragment() {
 
         val action = SearchFragmentDirections.actionSearchFragmentToDetailsFragment()
         findNavController().navigate(action)
-    }
-
-
-
-    companion object {
-        private const val LAST_SEARCH_QUERY: String = "last_search_query"
     }
 }
