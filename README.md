@@ -19,11 +19,16 @@
 * [Album Search Api](https://www.last.fm/api/show/album.search) To search for album with name provided.
 
 ### App Features
-* Recommended [App Architecture](https://developer.android.com/jetpack/guide) for android development with repository patten.
-* Displaying paginated data with new [Android Paging](https://developer.android.com/topic/libraries/architecture/paging) 
+* [MVVM APP Architecture](https://developer.android.com/jetpack/guide) with repository patten.
 * Implementation of [Android Navigation library](https://developer.android.com/guide/navigation))
 * [Data binding](https://developer.android.com/jetpack/androidx/releases/databinding) of components in layouts and data sources. 
 * Offline support as data is saved to sql light database using [ROOM](https://developer.android.com/topic/libraries/architecture/room)
 
 
 ## Screenshots
+ <table>
+  <tr>
+    <td><img src="/Images/search_screen.png" width=250 height=480></td>
+    <td><img src="/Images/details_screen.png" width=250 height=480></td>
+  </tr>
+ </table>
