@@ -14,16 +14,16 @@ data class AlbumDetailsResults (
 @Entity(tableName = "album_details")
 data class AlbumDetails (
     @PrimaryKey(autoGenerate = true)
-    val id : Int = 0,
-    val name: String,
+    val id : Int,
+    val name: String?,
     val artist: String,
-    val mbid: String,
-    val url: String,
-    val listeners: String,
+    val mbid: String?,
+    val url: String?,
+    val listeners: String?,
     @Embedded
-    val tracks: Tracks,
+    val tracks: Tracks?,
     @Embedded
-    val wiki: Wiki
+    val wiki: Wiki?
 )
 
 data class Tracks (
@@ -31,13 +31,13 @@ data class Tracks (
 )
 
 data class Track (
-    val name: String,
-    val url: String,
-    val duration: String
+    val name: String?,
+    val url: String?,
+    val duration: String?
 )
 
 data class Wiki (
-    val published: String,
-    val summary: String,
-    val content: String
+    val published: String?,
+    val summary: String?,
+    val content: String?
 )

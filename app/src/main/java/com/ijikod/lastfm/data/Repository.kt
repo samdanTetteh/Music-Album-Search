@@ -6,9 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.ijikod.lastfm.data.api.API_KEY
 import com.ijikod.lastfm.data.api.LastFmApiService
 import com.ijikod.lastfm.data.database.LocalCache
-import com.ijikod.lastfm.data.model.Album
-import com.ijikod.lastfm.data.model.AlbumDetails
-import com.ijikod.lastfm.data.model.AlbumSearchResults
+import com.ijikod.lastfm.data.model.*
 import kotlinx.coroutines.*
 import java.lang.Exception
 
@@ -20,7 +18,7 @@ class Repository(private val service :LastFmApiService, private val cache: Local
 
     lateinit var albumListData: LiveData<List<Album>>
 
-    lateinit var albumDetails: LiveData<AlbumDetails>
+    val albumDetails = MutableLiveData<AlbumDetails>()
 
     private val _networkErrors = MutableLiveData<String>()
 
@@ -33,15 +31,6 @@ class Repository(private val service :LastFmApiService, private val cache: Local
     fun getAlbums(value: String): AlbumSearchResults {
         listAlbums(value)
         return AlbumSearchResults(albumListData, networkErrors)
-    }
-
-
-    /**
-     * Await search results from either remote or local database and server to view model
-     * **/
-    fun getAlbumsDetails(album: String, artist: String,  mbid: String): AlbumDetails {
-        albumDetails(album, artist, mbid)
-        return albumDetails.value!!
     }
 
     // Load search results from remote or save to local database
@@ -60,22 +49,18 @@ class Repository(private val service :LastFmApiService, private val cache: Local
     }
 
     // Load album details from remote or save to local database
-    private fun albumDetails(album: String, artist: String, mbid: String) = runBlocking {
-        async {
+     fun albumDetails(album: String, artist: String, mbid: String){
+        CoroutineScope(Dispatchers.IO).launch {
             // Fetch cached album details
-            albumDetails = cache.albumsByMid(mbid)
-
-            // Load remote album details
-            albumDetails?.let {
-                remoteAlbumDetails(album, artist, {error ->
-                    _networkErrors.postValue(error)
-                }, {
-                    cache.insertAlbumDetails(it)
-                    albumDetails = cache.albumsByMid(it.mbid)
-                    _networkErrors.postValue("")
-                })
+            val cachedAlbums= cache.albumsByMid(mbid)
+            CoroutineScope(Dispatchers.Main).launch {
+                albumDetails.value = cachedAlbums
             }
-        }.await()
+
+            if (cachedAlbums == null){
+                remoteAlbumDetails(album, artist)
+            }
+        }
     }
 
 
@@ -101,17 +86,22 @@ class Repository(private val service :LastFmApiService, private val cache: Local
 
 
     @WorkerThread
-    suspend fun remoteAlbumDetails(album: String, artist : String,
-                                   onError: (error: String) -> Unit,
-                                   onSuccess: (result: AlbumDetails) -> Unit){
-
+    suspend fun remoteAlbumDetails(album: String, artist : String){
         try {
             val response  = service.getAlbumDetails(album, artist, API_KEY)
             val remoteDetailsData = response.body()?.album
-            onSuccess(remoteDetailsData!!)
+            remoteDetailsData?.let {
+                cache.insertAlbumDetails(it)
+                CoroutineScope(Dispatchers.Main).launch {
+                    albumDetails.value = it
+                }
+            }
+            _networkErrors.postValue("")
         }catch (exception : Exception){
             exception.message?.let {
-                onError(it)
+                CoroutineScope(Dispatchers.Main).launch {
+                    _networkErrors.value = it
+                }
             }
         }
 

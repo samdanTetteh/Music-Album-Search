@@ -156,12 +156,11 @@ class SearchFragment: Fragment() {
 
     // Navigate to Album details
     private fun navigate(album: Album){
-        albumDetailsVM = ViewModelProvider(requireActivity(), LastFMApplication.provideViewModelFactory(requireContext())).get(AlbumDetailsViewModel::class.java)
+        albumDetailsVM = ViewModelProvider(requireActivity(), LastFMApplication.provideViewModelFactory(requireActivity())).get(AlbumDetailsViewModel::class.java)
         albumDetailsVM.setSelectedAlbum(album)
 
         val action = SearchFragmentDirections.actionSearchFragmentToDetailsFragment()
         findNavController().navigate(action)
-
     }
 
 

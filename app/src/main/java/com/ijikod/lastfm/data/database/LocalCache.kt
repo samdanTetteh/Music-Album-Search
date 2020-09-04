@@ -46,8 +46,8 @@ class LocalCache(private val albumsDao: AlbumsDao, private val ioExecutor: Execu
      * Request [AlbumDetails] from the Dao, based on a album mid.
      * @param query album name
      */
-    fun albumsByMid(mid: String): LiveData<AlbumDetails>{
-        return albumsDao.albumByMid(mid)
+    fun albumsByMid(mbid: String): AlbumDetails{
+        return albumsDao.albumByMid(mbid)
     }
 
 

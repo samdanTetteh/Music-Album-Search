@@ -27,7 +27,7 @@ interface AlbumsDao {
      * Select cached [AlbumDetails]
      * **/
     @Query("Select * from album_details where mbid = :mbid")
-    fun albumByMid(mbid: String): LiveData<AlbumDetails>
+    fun albumByMid(mbid: String): AlbumDetails
 
     /**
      * Select cached [Album] list

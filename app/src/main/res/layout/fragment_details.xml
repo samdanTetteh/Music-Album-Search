@@ -11,7 +11,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +25,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/artwork" />
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <ImageView
@@ -36,8 +36,9 @@
                 android:layout_marginBottom="2dp"
                 android:contentDescription="@string/album_img"
                 android:scaleType="fitXY"
-                app:layout_constraintBottom_toTopOf="@+id/loading_progress"
+                app:layout_constraintBottom_toTopOf="@+id/name_txt"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
@@ -52,7 +53,7 @@
                 android:textColor="@android:color/black"
                 android:textSize="25sp"
                 android:textStyle="bold"
-                android:visibility="gone"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toTopOf="@+id/artist_txt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
@@ -69,7 +70,7 @@
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
-                android:visibility="gone"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toTopOf="@+id/tracks_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -85,14 +86,14 @@
                 android:text="@string/album_tracks_title"
                 android:textSize="18sp"
                 android:textStyle="italic"
-                android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@+id/album_txt"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/album_tracks"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/artist_txt" />
 
             <TextView
-                android:id="@+id/album_txt"
+                android:id="@+id/album_tracks"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -102,7 +103,7 @@
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
-                android:visibility="gone"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toTopOf="@+id/album_details"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -116,15 +117,15 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="15dp"
+                android:layout_marginBottom="8dp"
                 android:textAlignment="center"
-                android:textSize="20sp"
-                android:visibility="gone"
                 android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/album_txt"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/album_tracks" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
