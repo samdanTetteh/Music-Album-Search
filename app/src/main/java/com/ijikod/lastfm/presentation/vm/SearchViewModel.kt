@@ -35,9 +35,4 @@ class SearchViewModel(private val repository: Repository) :ViewModel() {
         queryLiveData.postValue(query)
     }
 
-    /**
-     * Get the last query value.
-     */
-    fun lastQueryValue(): String? = queryLiveData.value
-
 }

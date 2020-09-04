@@ -77,5 +77,21 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
 
+    // Truth Assertions
+    testImplementation "com.google.truth:truth:$truth"
+
+    // Mockito
+    androidTestImplementation "org.mockito:mockito-core:$mockito_core"
+    androidTestImplementation "org.mockito:mockito-android:$mockito_android"
+    androidTestImplementation "androidx.arch.core:core-testing:$core_testing"
+
+    // Espresso
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_core"
+
+    // AndroidJUnitRunner and JUnit Rules
+    androidTestImplementation "androidx.test:runner:$junit_rules"
+    androidTestImplementation "androidx.test:rules:$junit_rules"
+
 
 }

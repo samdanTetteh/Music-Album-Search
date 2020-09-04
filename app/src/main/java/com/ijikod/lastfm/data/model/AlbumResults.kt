@@ -27,12 +27,12 @@ data class Albummatches (
 data class Album (
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val name: String,
-    val artist: String,
-    val url: String,
-    val image: List<Image>,
-    val streamable: String,
-    val mbid: String
+    val name: String?,
+    val artist: String?,
+    val url: String?,
+    val image: List<Image>?,
+    val streamable: String?,
+    val mbid: String?
 )
 
 data class Image (

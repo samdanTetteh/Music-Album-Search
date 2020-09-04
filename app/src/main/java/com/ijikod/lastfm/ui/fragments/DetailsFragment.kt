@@ -73,17 +73,6 @@ class DetailsFragment: Fragment() {
         albumWiki.visibility = View.VISIBLE
     }
 
-    // hide page views
-    private fun hidePageItems(){
-        progressBar.visibility = View.INVISIBLE
-        albumName.visibility = View.INVISIBLE
-        albumArtist.visibility = View.INVISIBLE
-        albumTracks.visibility = View.INVISIBLE
-        albumWiki.visibility = View.INVISIBLE
-        tracksTitle.visibility = View.INVISIBLE
-    }
-
-
     // set retrieved data to fragment views
     private fun showAlbumDetails(albumDetails: AlbumDetails){
         albumName.text = albumDetails.name

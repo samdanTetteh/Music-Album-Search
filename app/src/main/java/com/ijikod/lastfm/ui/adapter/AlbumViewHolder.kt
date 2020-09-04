@@ -22,7 +22,7 @@ class AlbumViewHolder(binding: SearchItemBinding, val navigateToDetail: (Album) 
     fun bindData(album: Album){
         albumNameTxt.text = album.name
         artistNameTxt.text = album.artist
-        Glide.with(albumArtwork.context).load(album.image[2].text).placeholder(R.drawable.last_fm).into(albumArtwork)
+        Glide.with(albumArtwork.context).load(album.image?.get(2)?.text).placeholder(R.drawable.last_fm).into(albumArtwork)
 
         /**
          * Navigate to details screen

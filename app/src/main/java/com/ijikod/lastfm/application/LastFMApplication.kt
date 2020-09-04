@@ -30,7 +30,7 @@ class LastFMApplication: Application() {
         /**
          * Creates an instance of [LocalCache] based on the database DAO.
          */
-        private fun provideCache(context: Context): LocalCache {
+         fun provideCache(context: Context): LocalCache {
             val database = LastFmDatabase.getInstance(context)
             return LocalCache(database.albumsDao(), Executors.newSingleThreadExecutor())
         }
@@ -39,7 +39,7 @@ class LastFMApplication: Application() {
          * Creates an instance of [Repository] based on the [RetrofitInstance] and a
          * [LocalCache]
          */
-        private fun provideRepository(context: Context): Repository {
+         fun provideRepository(context: Context): Repository {
             return Repository(RetrofitInstance.lastApiService, provideCache(context))
         }
 

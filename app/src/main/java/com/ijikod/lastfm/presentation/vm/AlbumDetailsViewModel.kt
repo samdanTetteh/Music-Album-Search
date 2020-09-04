@@ -1,6 +1,5 @@
 package com.ijikod.lastfm.presentation.vm
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ijikod.lastfm.data.Repository
@@ -24,10 +23,12 @@ class AlbumDetailsViewModel(private val repository: Repository): ViewModel() {
     }
 
 
+    /**
+     * Load album details from [Repository]
+     * **/
     fun getAlbumDetails(){
         selectedAlbum.value?.let {
-            Log.d("details VM= mbid", it.mbid)
-            repository.albumDetails(it.name, it.artist, it.mbid)
+            repository.albumDetails(it.name ?: "", it.artist ?: "", it.mbid ?: "")
         }
     }
 }
