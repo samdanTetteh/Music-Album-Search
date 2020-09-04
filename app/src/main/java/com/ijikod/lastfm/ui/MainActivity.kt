@@ -7,6 +7,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.ijikod.lastfm.R
 import com.ijikod.lastfm.ui.factory.AlbumsFragmentFactory
+import com.ijikod.lastfm.ui.fragments.SearchFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -26,6 +27,15 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.fragmentFactory = AlbumsFragmentFactory()
         // setup toolbar with navigation component
         toolbar.setupWithNavController(navHostFragment.navController, appBarConfiguration)
+    }
+
+
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.searchFragment)
+        if (fragment is SearchFragment){
+            fragment.saveLastQuery()
+        }
+        super.onBackPressed()
     }
 
 }

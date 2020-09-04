@@ -163,6 +163,10 @@ class SearchFragment: Fragment() {
         findNavController().navigate(action)
     }
 
+    fun saveLastQuery(){
+        if (searchTextField.text.toString().isNotEmpty())
+        PrefsHelper.write(LAST_SEARCH_QUERY, searchTextField.text.toString())
+    }
 
 
     companion object {

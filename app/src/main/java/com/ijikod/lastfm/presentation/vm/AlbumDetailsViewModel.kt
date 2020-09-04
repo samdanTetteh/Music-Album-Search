@@ -1,15 +1,10 @@
 package com.ijikod.lastfm.presentation.vm
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.ijikod.lastfm.data.Repository
 import com.ijikod.lastfm.data.model.Album
-import com.ijikod.lastfm.data.model.AlbumData
-import com.ijikod.lastfm.data.model.AlbumDetails
-import com.ijikod.lastfm.data.model.AlbumSearchResults
 
 class AlbumDetailsViewModel(private val repository: Repository): ViewModel() {
 

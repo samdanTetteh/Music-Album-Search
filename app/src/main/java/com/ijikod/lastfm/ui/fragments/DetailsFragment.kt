@@ -125,7 +125,4 @@ class DetailsFragment: Fragment() {
             }
         })
     }
-
-
-
 }
