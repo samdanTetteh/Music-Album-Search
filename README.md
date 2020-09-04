@@ -10,7 +10,7 @@
 * Clone Repository using Android Studio.
 * Android Studio will ask to change your android sdk path to your local machine since it would 
  not be able to find my local path. 
-* Make sure you are on the master branch and allow android studio to finish building.
+* Make sure you are on the **master** branch and allow android studio to finish building.
 * Run application
 * Enter Album name in search Box
 
